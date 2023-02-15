@@ -3,26 +3,17 @@ version: "3.1"
 services:
   mongo:
     image: mongo
-    networks:
-      - mongo_network
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
     volumes:
-      - mongodb_data1:/data/db
-
-  mongo-client:
-    image: mongo
-    networks:
-      - mongo_network
+      - ./data/mongo:/data/db
+  
+  redis:
+    image: redis
     restart: always
-    volumes:
-      - mongodb_data2:/data/db
-
-volumes:
-  mongodb_data1:
-  mongodb_data2:
-
-networks:
-  mongo_network:
+    
+  app:
+    build: .
+    restart: always
